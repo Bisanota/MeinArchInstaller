@@ -1,6 +1,11 @@
 # ArchInstaller
 This is an ArchLinux Installer made for me (yeah, for personal uses only at the moment)
 
+For download this files, use:
+'''
+git clone https://github.com/Bisanota/ArchInstaller.git
+'''
+
 Actually, every who wants to use it, are free to use it hahaha
 ~~Is for users who has installed before and knows what are doing~~
 ## What is this?
