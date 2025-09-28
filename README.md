@@ -2,8 +2,10 @@
 This is an ArchLinux Installer made for me (yeah, for personal uses only at the moment)
 
 For download this files, use:
+
+
 '''
-git clone https://github.com/Bisanota/ArchInstaller.git
+git clone https://github.com/Bisanota/MeinArchInstaller.git
 '''
 
 Actually, every who wants to use it, are free to use it hahaha
