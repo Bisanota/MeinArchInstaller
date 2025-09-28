@@ -1,192 +1,157 @@
 #!/bin/bash
 #Archivo Instalador de Arch Linux Base, con todo configurado para que esté listo para usarse
 
-#VARIABLES
+# =====================
+# VARIABLES
+# =====================
 disco=""
 opcion=""
 nombreMaquina=""
 nombreUser=""
-contador="0"
-#FUNCIONES
+discoMBRorGPT=""
 
+# =====================
+# FUNCIONES
+# =====================
+confirmar() {
+    read -p "$1 [s/N]: " r
+    [[ "$r" =~ ^[sS]$ ]]
+}
 
-#CÓDIGO
-
- ##Esta parte es fija, puesto a que siempre lo haré en mis máquinas. Son libres de modificar esta parte segun sus necesidades
+# =====================
+# CONFIG INICIAL
+# =====================
 clear
-
-#entra el entorno de sistema
-clear
-echo "Mi zona horaria es UTC-5, por lo que este script tiene ese formato de hora"
-
+echo "Mi zona horaria es UTC-5 (America/Guayaquil)."
 ln -sf /usr/share/zoneinfo/America/Guayaquil /etc/localtime
 hwclock --systohc
-sleep 1
-#Idioma
-clear
-echo "Yo quiero que esté en ingles, preferencia personal. Pero en todo caso se puede tranquilamente en otro idioma."
+
+# Idioma
 echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
-sleep 2
-clear
 
+# Teclado consola (opcional, puedes cambiarlo)
+echo "KEYMAP=la-latin1" > /etc/vconsole.conf
 
-#Empieza lo verdadero
-#Bucle preguntón para asegurarse de escoger bien jaja
+# Paquetes necesarios
+pacman -Sy --noconfirm grub os-prober networkmanager sudo
+
+# =====================
+# MENU INTERACTIVO
+# =====================
 while true; do
     clear
     echo "Seleccione una opción:"
     echo "1) Escoger entre MBR o GPT"
     echo "2) Nombre de la máquina"
     echo "3) Nombre de usuario"
-    echo "4) Activar SUDO"
-    echo "5) Activar Bootloader"
+    echo "4) Activar SUDO automáticamente"
+    echo "5) Configurar GRUB con OS Prober"
     echo "6) Continuar"
-    read opcion
-
+    read -p "> " opcion
 
     case $opcion in
-
     1)
-
-
-    ##Pregunta si es MBR O GPT
-while true; do
-
-    clear
-    echo "Se necesita saber si su disco está en MBR o GPT"
-    echo "..."
-    echo "1) MBR"
-    echo "2) GPT"
-    read disco
-
-    case $disco in
-
-    1)
-        echo
-        echo "Su disco está en MBR, por lo que se ajustará e instalara a este sistema :D"
-        discoMBRorGPT="grub-install --target=i386-pc /dev/sda"
-   	break
-	;;
+        while true; do
+            clear
+            echo "¿Su disco está en MBR o GPT?"
+            echo "1) MBR"
+            echo "2) GPT"
+            read -p "> " disco
+            case $disco in
+                1)
+                    discoMBRorGPT="grub-install --target=i386-pc /dev/sda"
+                    break
+                    ;;
+                2)
+                    discoMBRorGPT="grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ArchBTW"
+                    break
+                    ;;
+                *)
+                    echo "Respuesta no válida."
+                    sleep 1
+                    ;;
+            esac
+        done
+        ;;
     2)
-        echo
-        echo "Su disco está en GPT, por lo que se ajustará e instalara a este sistema :D"
-        echo
-        sleep 1
-        discoMBRorGPT="grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ArchBTW"
-	break
-    ;;
-    *)
-        echo "Respuesta no válida :("
-        sleep 1
-    ;;
-    esac
-
-done
-
-    ;;
-    2)
-    #Nombre del host
-clear
-echo "¿Qué nombre desea para la máquina?"
-read nombreMaquina
-
-    ;;
+        clear
+        read -p "¿Qué nombre desea para la máquina? " nombreMaquina
+        ;;
     3)
-    clear
-if [ "$contador" != "0" ]; then
-userdel -r $nombreUser
-    contador="1"
-    else
-
-    echo "¿Qué nombre desea para el usuario?"
-read nombreUser
-useradd -m -G wheel -s /bin/bash $nombreUser
-
-    ;;
+        while true; do
+            clear
+            read -p "¿Qué nombre desea para el usuario? " nombreUser
+            if id "$nombreUser" &>/dev/null; then
+                echo "El usuario ya existe, intente otro."
+                sleep 2
+            else
+                useradd -m -G wheel -s /bin/bash "$nombreUser"
+                break
+            fi
+        done
+        ;;
     4)
-#Permitir que el usuario tenga SUDO
-clear
-echo "Ahora descomente la siguiente línea, de tal manera que quede así: "
-echo "%wheel ALL=(ALL) ALL"
-echo "Se encuentra casi al último del archivo"
-echo "Presione Enter..."
-read
-EDITOR=nano visudo
-    ;;
+        sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
+        echo "SUDO activado para usuarios en el grupo wheel."
+        sleep 2
+        ;;
     5)
-#Ahora se instala el Bootloader
-clear
-echo "Ahora se procederá a activar OS PROBER para que se detecte otros sistemas operativos"
-sleep 1
-
-echo "Por favor, cambie la linea o agregue: GRUB_DISABLE_OS_PROBER=false"
-echo "Pulse ENTER para continuar"
-read
-nano /etc/default/grub
-    ;;
+        sed -i '/GRUB_DISABLE_OS_PROBER=/d' /etc/default/grub
+        echo "GRUB_DISABLE_OS_PROBER=false" >> /etc/default/grub
+        echo "OS Prober habilitado en GRUB."
+        sleep 2
+        ;;
     6)
-    echo
-    echo "¿Está seguro?, no hay paso atras, y se continuará con la selección de contraseñas"
-    echo "Su estilo de partición es $disco"
-    echo "El nombre de su máquina es $nombreMaquina"
-    echo "El nombre de su usuario es $nombreUser"
-    echo "Pulse S o N"
-    read son
-    if [ "$son" = "s" ] || [ "$son" = "S" ]; then
-    break
-    fi
-
-    ;;
+        clear
+        echo "Resumen:"
+        echo " - Estilo de partición: $disco"
+        echo " - Nombre de máquina: $nombreMaquina"
+        echo " - Usuario: $nombreUser"
+        if confirmar "¿Desea continuar?"; then
+            break
+        fi
+        ;;
+    *)
+        echo "Opción inválida."
+        sleep 1
+        ;;
     esac
 done
 
+# =====================
+# CONTRASEÑAS
+# =====================
 clear
-
-while true; do
-#Contraseña ROOT
-echo "Contraseña para el usuario root"
+echo "Contraseña para root:"
 passwd
 
+echo "Contraseña para $nombreUser:"
+passwd "$nombreUser"
 
-echo "¿Desea una contraseña diferente para root? [S/N]"
-read paraRoot
-if [ "$paraRoot" = "N" ] || [ "$paraRoot" = "n" ]; then
-break
-fi
-sleep 1
-clear
-done
-
-while true; do
-#Contraseña de Usuario
-echo "Ahora la contraseña para $nombreUser"
-passwd $nombreUser
-sleep 1
-
-
-echo "¿Desea una contraseña diferente para $nombreUser? [S/N]"
-read paraRoot
-if [ "$paraRoot" = "N" ] || [ "$paraRoot" = "n" ]; then
-break
-fi
-clear
-done
-#Fin del bucle principal
-
-clear
+# =====================
+# HOSTNAME Y HOSTS
+# =====================
 echo "$nombreMaquina" > /etc/hostname
 cat <<EOF > /etc/hosts
 127.0.0.1   localhost
 ::1         localhost
 127.0.1.1   $nombreMaquina.localdomain $nombreMaquina
 EOF
-echo "Instalando el Bootloader GRUB"
+
+# =====================
+# GRUB & NETWORK
+# =====================
+echo "Instalando GRUB..."
 $discoMBRorGPT
 grub-mkconfig -o /boot/grub/grub.cfg
-systemctl enable NetworkManager
-echo "Instalación terminada :D"
-sleep 2
 
+systemctl enable NetworkManager
+
+clear
+echo "===================================="
+echo " Instalación de Arch Linux completada"
+echo "===================================="
+sleep 2
 exit
