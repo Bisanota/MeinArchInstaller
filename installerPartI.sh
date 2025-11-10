@@ -14,7 +14,7 @@ echo "Cambiando al entorno de chroot"
 sleep 2
 echo
 echo
-echo "Por favor, abra el archivo installerPartII.sh para continuar"
+echo "Por favor, abra el archivo installerPartII.sh para continuar, se encuentra dentro de la carpeta MeinArchInstaller."
 arch-chroot /mnt
 
 echo "Pulse ENTER"
