@@ -20,7 +20,7 @@ clear
 
 echo
 
-sudo pacman -Syu --needed --noconfirm zram-generator
+sudo pacman -S --needed --noconfirm zram-generator
 
 echo "[zram0]
 zram-size = ram * 2
@@ -40,4 +40,5 @@ echo "Terminado, reinicie la maquina por favor..."
 echo
 sleep 1
 echo "Presione ENTER para terminar y reiniciar"
+read
 sudo reboot now
