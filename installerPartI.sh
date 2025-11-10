@@ -8,7 +8,7 @@ read
 
 pacstrap -K /mnt $paquetes
 genfstab -U /mnt >> /mnt/etc/fstab
-cp installerPartII.sh /mnt
+cp ../MeinArchInstaller /mnt
 
 echo "Cambiando al entorno de chroot"
 sleep 2
