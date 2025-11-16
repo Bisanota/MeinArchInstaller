@@ -9,7 +9,7 @@ opcion=""
 nombreMaquina=""
 nombreUser=""
 discoMBRorGPT=""
-
+chaoticAURconf=0
 # =====================
 # FUNCIONES
 # =====================
@@ -48,7 +48,8 @@ while true; do
     echo "3) Nombre de usuario"
     echo "4) Activar SUDO automáticamente"
     echo "5) Configurar GRUB con OS Prober"
-    echo "6) Continuar"
+    echo "6) Agregar ChaoticAUR"
+    echo "7) Continuar"
     read -p "> " opcion
 
     case $opcion in
@@ -104,6 +105,14 @@ while true; do
         sleep 2
         ;;
     6)
+        pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
+        pacman-key --lsign-key 3056513887B78AEB
+        sudo pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
+        sudo pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
+        echo -e "\n#Multilib\n[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
+        echo -e "\n#Chaotic AUR\n[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist" >> /etc/pacman.conf
+        ;;
+    7)
         clear
         echo "Resumen:"
         echo " - Estilo de partición: $disco"
@@ -148,6 +157,35 @@ $discoMBRorGPT
 grub-mkconfig -o /boot/grub/grub.cfg
 
 systemctl enable NetworkManager
+
+
+
+
+
+swapfileArchive=0
+memRam=$(free -m | awk '/^Mem:/ {print $2}')
+
+if [ $memRam -le 8192 ]; then
+swapfileArchive=$memRam
+else
+    swapfileArchive=8192
+fi
+
+echo "[zram0]
+zram-size = ram * 2
+compression-algorithm = zstd
+swap-priority = 100
+fs-type = swap" > /etc/systemd/zram-generator.conf
+
+
+sudo fallocate -l ${swapfileArchive}M /swapfile
+sudo chmod 600 /swapfile
+sudo swapon /swapfile
+sudo mkswap /swapfile
+echo "/swapfile swap swap defaults 0 0" >> /etc/fstab
+
+
+
 
 clear
 echo "===================================="
