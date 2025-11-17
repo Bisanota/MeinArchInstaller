@@ -34,9 +34,6 @@ echo "LANG=en_US.UTF-8" > /etc/locale.conf
 # Teclado consola (opcional, puedes cambiarlo)
 echo "KEYMAP=la-latin1" > /etc/vconsole.conf
 
-# Paquetes necesarios
-pacman -Sy --noconfirm grub os-prober networkmanager sudo
-
 # =====================
 # MENU INTERACTIVO
 # =====================
