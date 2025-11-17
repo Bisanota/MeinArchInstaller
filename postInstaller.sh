@@ -8,7 +8,7 @@ multimedia="alsa-utils alsa-plugins alsa-firmware alsa-oss pipewire pipewire-als
 appsPersonales="kdenlive musescore audacity gimp inkscape digikam darktable blender krita libreoffice-fresh onlyoffice-bin obs-studio"
 coreApps="ntfs-3g dosfstools btrfs-progs zip unzip unrar p7zip vulkan-icd-loader gvfs gvfs-mtp lib32-vulkan-icd-loader epson-inkjet-printer-escpr brave-bin pamac yay cups cups-pdf system-config-printer avahi nss-mdns sane simple-scan gamemode innoextract lib32-gamemode lib32-gnutls lib32-mesa-libgl lib32-vkd3d python-pefile vkd3d harvid new-session-manager xjadeo"
 fuentesFonts="ttf-droid ttf-freefont ttf-dejavu ttf-liberation ttf-opensans noto-fonts noto-fonts-cjk noto-fonts-emoji adobe-source-han-sans-otc-fonts"
-aInstalar="$multimedia $appsPersonales $coreApps $fuentesFonts"
+aInstalar="$multimedia $coreApps $fuentesFonts"
 
 # DE / WM
 plasma="plasma sddm konsole dolphin ark kate okular gwenview kcalc filelight kdeconnect"
@@ -79,8 +79,15 @@ done
 
 aInstalar="$aInstalar $de"
 
+clear
+echo "¿Quieres las apps personales?"
+read sinooque
+if [ $sinooque == "S" || $sinooque == "s" ]; then
+    aInstalar="$aInstalar $appsPersonales"
+fi
+
 # Instalación Online
-instalacionOnline=$(pacman -Syyu --needed --noconfirm $aInstalar
+instalacionOnline=$(pacman -Syyu --needed --noconfirm $aInstalar)
 intentos=0
 intentosMax=5
 haFuncionado=0
