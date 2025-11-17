@@ -55,15 +55,6 @@ if [[ "$broad" =~ ^[Ss]$ ]]; then
     instaladorBRM
 fi
 
-# Chaotic AUR y multilib
-pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
-pacman-key --lsign-key 3056513887B78AEB
-sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
-sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
-
-echo -e "\n#Multilib\n[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
-echo -e "\n#Chaotic AUR\n[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist" >> /etc/pacman.conf
-
 # Selección DE / WM
 while true; do
     echo "Elige el DE o WM:"
@@ -89,8 +80,20 @@ done
 aInstalar="$aInstalar $de"
 
 # Instalación Online
-pacman -Syyu --needed --noconfirm $aInstalar
+instalacionOnline=$(pacman -Syyu --needed --noconfirm $aInstalar
+intentos=0
+intentosMax=5
+haFuncionado=0
 
+echo "Empezando la instalación"
+while [ $intentos -le $intentosMax ] ; do
+
+    $instalacionOnline && break
+    echo "Ha fallado :c"
+    intentos=$((intentos + 1))
+    haFuncionado=1
+done
+if [ $haFuncionado == 0 ]; then
 # Servicios
 systemctl enable $dm.service
 systemctl enable cups
@@ -98,3 +101,8 @@ systemctl enable bluetooth
 systemctl enable avahi-daemon.service
 
 echo "Instalación completada 🎉"
+
+    else
+    echo "La instalación ha fallado :("
+
+fi
