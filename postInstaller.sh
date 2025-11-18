@@ -87,7 +87,7 @@ if [[ "$sinooque" =~ ^[Ss]$ ]]; then
 fi
 
 # Instalación Online
-instalacionOnline=$(pacman -Syyu --needed --noconfirm $aInstalar)
+instalacionOnline="pacman -Syyu --needed --noconfirm $aInstalar"
 intentos=0
 intentosMax=5
 haFuncionado=0
