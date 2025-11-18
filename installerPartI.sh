@@ -15,7 +15,7 @@ echo "Para más información, lea el archivo README"
 echo "Pulse Enter si es que cumple las condiciones"
 read
 
-installArch=$(pacstrap -K /mnt $paquetes)
+installArch="pacstrap -K /mnt $paquetes"
 intentos=0
 intentosMax=5
 haFuncionado=0
@@ -35,7 +35,6 @@ if [ $haFuncionado == 0 ]; then
 genfstab -U /mnt >> /mnt/etc/fstab
 
 cp installerPartII.sh /mnt
-$installArch
 echo "Cambiando al entorno de chroot y ejecutando la parte II"
 sleep 2
 arch-chroot /mnt bash /installerPartII.sh
