@@ -43,10 +43,8 @@ while true; do
     echo "1) Escoger entre MBR o GPT"
     echo "2) Nombre de la máquina"
     echo "3) Nombre de usuario"
-    echo "4) Activar SUDO automáticamente"
-    echo "5) Configurar GRUB con OS Prober"
-    echo "6) Agregar ChaoticAUR"
-    echo "7) Continuar"
+    echo "4) Agregar ChaoticAUR"
+    echo "5) Continuar"
     read -p "> " opcion
 
     case $opcion in
@@ -91,17 +89,6 @@ while true; do
         done
         ;;
     4)
-        sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
-        echo "SUDO activado para usuarios en el grupo wheel."
-        sleep 2
-        ;;
-    5)
-        sed -i '/GRUB_DISABLE_OS_PROBER=/d' /etc/default/grub
-        echo "GRUB_DISABLE_OS_PROBER=false" >> /etc/default/grub
-        echo "OS Prober habilitado en GRUB."
-        sleep 2
-        ;;
-    6)
         pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
         pacman-key --lsign-key 3056513887B78AEB
         sudo pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
@@ -109,7 +96,7 @@ while true; do
         echo -e "\n#Multilib\n[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
         echo -e "\n#Chaotic AUR\n[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist" >> /etc/pacman.conf
         ;;
-    7)
+    5)
         clear
         echo "Resumen:"
         echo " - Estilo de partición: $disco"
@@ -125,6 +112,20 @@ while true; do
         ;;
     esac
 done
+# =====================
+# ACTIVACIÓN DEL GRUPO SUDOERS Y DE OS PROBER
+# =====================
+
+        sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
+        echo "SUDO activado para usuarios en el grupo wheel."
+        sleep 2
+        ;;
+        sed -i '/GRUB_DISABLE_OS_PROBER=/d' /etc/default/grub
+        echo "GRUB_DISABLE_OS_PROBER=false" >> /etc/default/grub
+        echo "OS Prober habilitado en GRUB."
+        sleep 2
+        ;;
+    
 
 # =====================
 # CONTRASEÑAS
