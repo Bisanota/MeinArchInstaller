@@ -57,7 +57,7 @@ fi
 
 # Selección DE / WM
 while true; do
-    echo "Elige el DE o WM:"
+    echo "Elige el DE o WM: (PD: De momento solo funciona correctamente KDE Plasma, por favor, tener eso en cuenta, los demas DE y WM no han sido probados del todo)"
     echo "1) XFCE 2) LXQt 3) Plasma 4) GNOME 5) Cinnamon 6) MATE 7) Budgie 8) i3 9) Openbox 10) Awesome 11) bspwm 12) Hyprland"
     read opcion
     case $opcion in
@@ -82,7 +82,7 @@ aInstalar="$aInstalar $de"
 clear
 echo "¿Quieres las apps personales?"
 read sinooque
-if [ $sinooque == "S" || $sinooque == "s" ]; then
+if [[ "$sinooque" =~ ^[Ss]$ ]]; then
     aInstalar="$aInstalar $appsPersonales"
 fi
 
