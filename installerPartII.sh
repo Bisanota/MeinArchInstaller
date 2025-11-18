@@ -176,7 +176,7 @@ swap-priority = 100
 fs-type = swap" > /etc/systemd/zram-generator.conf
 
 
-sudo fallocate -l ${swapfileArchive}M /swapfile
+sudo fallocate -l 4G /swapfile
 sudo chmod 600 /swapfile
 sudo swapon /swapfile
 sudo mkswap /swapfile
