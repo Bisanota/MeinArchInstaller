@@ -153,34 +153,11 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 systemctl enable NetworkManager
 
-
-
-
-
-swapfileArchive=0
-memRam=$(free -m | awk '/^Mem:/ {print $2}')
-
-if [ $memRam -le 8192 ]; then
-swapfileArchive=$memRam
-else
-    swapfileArchive=8192
-fi
-
 echo "[zram0]
 zram-size = ram * 2
 compression-algorithm = zstd
 swap-priority = 100
 fs-type = swap" > /etc/systemd/zram-generator.conf
-
-
-sudo fallocate -l 4G /swapfile
-sudo chmod 600 /swapfile
-sudo swapon /swapfile
-sudo mkswap /swapfile
-echo "/swapfile swap swap defaults 0 0" >> /etc/fstab
-
-
-
 
 clear
 echo "===================================="
