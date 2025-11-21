@@ -110,11 +110,11 @@ systemctl enable bluetooth
 systemctl enable avahi-daemon.service
 
 # SWAPFILE
-# sudo fallocate -l 4G /swapfile
-# sudo chmod 600 /swapfile
-# sudo swapon /swapfile
-# sudo mkswap /swapfile
-# echo "/swapfile none swap defaults 0 0" >> /etc/fstab
+sudo fallocate -l 4G /swapfile
+sudo chmod 600 /swapfile
+sudo swapon /swapfile
+sudo mkswap /swapfile
+echo "/swapfile none swap defaults 0 0" >> /etc/fstab
 
 echo "Instalación completada 🎉"
 
