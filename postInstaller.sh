@@ -16,7 +16,7 @@ aInstalar="$multimedia $coreApps $fuentesFonts $chaoticAURPkgs"
 plasma="plasma sddm konsole dolphin ark kate okular gwenview kcalc filelight kdeconnect"
 xfce="xfce4 xfce4-goodies lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings xfce4-whiskermenu-plugin"
 lxqt="lxqt breeze-icons sddm sddm-kcm"
-gnome="gnome gdm gnome-tweaks gnome-shell-extensions"
+gnome="gnome gdm gnome-tweaks gnome-shell-extensions gnome-extra polkit-gnome"
 cinnamon="cinnamon lightdm lightdm-slick-greeter"
 mate="mate mate-extra lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings"
 budgie="budgie-desktop gnome gdm"
@@ -109,12 +109,12 @@ systemctl enable cups
 systemctl enable bluetooth
 systemctl enable avahi-daemon.service
 
-# SWAPFILE
-sudo fallocate -l 4G /swapfile
-sudo chmod 600 /swapfile
-sudo swapon /swapfile
-sudo mkswap /swapfile
-echo "/swapfile none swap defaults 0 0" >> /etc/fstab
+# SWAPFILE ----> REMOVIDO/COMENTADO PORQUE EL ARCHIVO AUTOSWAPFILE... YA HACE ESTO
+# sudo fallocate -l 4G /swapfile
+# sudo chmod 600 /swapfile
+# sudo swapon /swapfile
+# sudo mkswap /swapfile
+# echo "/swapfile none swap defaults 0 0" >> /etc/fstab
 
 echo "Instalación completada 🎉"
 
