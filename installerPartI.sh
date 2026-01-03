@@ -1,5 +1,5 @@
 #!/bin/bash
-paquetes="dkms linux-headers broadcom-wl-dkms base base-devel linux linux-firmware nano networkmanager htop fastfetch grub os-prober efibootmgr zram-generator"
+paquetes="dkms linux-headers broadcom-wl-dkms base base-devel linux linux-firmware nano networkmanager htop fastfetch grub os-prober efibootmgr zram-generator git less bash-completion"
 echo "ADVERTENCIA"
 echo "SE REQUIERE CONEXIÓN A INTERNET PARA ESTA INSTALACIÓN"
 sleep 2
