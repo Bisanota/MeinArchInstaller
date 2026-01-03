@@ -14,7 +14,7 @@ aInstalar="$multimedia $coreApps $fuentesFonts $chaoticAURPkgs"
 
 # DE / WM
 plasma="plasma sddm konsole dolphin ark kate okular gwenview kcalc filelight kdeconnect"
-xfce="xfce4 xfce4-goodies lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings xfce4-whiskermenu-plugin"
+xfce="xfce4 xfce4-goodies lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings xfce4-whiskermenu-plugin blueman network-manager-applet"
 lxqt="lxqt breeze-icons sddm sddm-kcm"
 gnome="gnome gdm gnome-tweaks gnome-shell-extensions gnome-extra polkit-gnome extension-manager"
 cinnamon="cinnamon lightdm lightdm-slick-greeter"
