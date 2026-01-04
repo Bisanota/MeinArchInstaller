@@ -1,12 +1,14 @@
-# ArchInstaller
+# Mein Arch Installer
+**By Bisanota**
 This is an ArchLinux Installer made for me (yeah, for personal uses only at the moment)
 
-For download this files, use:
-
+For download/clone this files, use:
 
 ```
 git clone https://github.com/Bisanota/MeinArchInstaller.git
 ```
+
+Is planned to give a **Ready To Make** command in a near future.
 
 Actually, every who wants to use it, are free to use it hahaha
 ~~Is for users who has installed before and knows what are doing~~
@@ -37,10 +39,4 @@ Actually, it may have an update someday (if I'd remember hahaha)
 
 Enjoy the script :)
 
-
-# PD: YEAH, I KNOW
-ArchInstaller may do just this whole things, but, at least for me, causes errors always, specially on MBR disks (and I have an slow internet connections where I'm online :( )
-
-
-## UPDATE 10/11/2025
-I've retaken this project, so, to make this Arch installation replicable, free, and with instructions if anyone wants to use this manual
+*This installer was planned for more easy installation, but an initial manual intervention with partitions and about mounting it*
