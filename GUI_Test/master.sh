@@ -17,6 +17,7 @@ echo "Press Enter to continue"
 read
 pacman -Sy archlinux-keyring
 pacman -Sy $dependencies
-
+git clone https://github.com/Bisanota/MeinArchInstaller.git
+cd MeinArchInstaller/GUI_Test
 bash first.sh
 
