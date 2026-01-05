@@ -5,7 +5,7 @@
 #  So, I almost forgot this, IS INTENDED JUST TO RUN
 #  ON LIVE ENVIRONMENT, IS JUST THE FIRST INSTALLATION.
 # Variables
-dependencies="dialog"
+dependencies="archlinux-keyring dialog"
 # Functions
 
 
