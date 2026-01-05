@@ -1,5 +1,5 @@
 #!/bin/bash
-#  Commentaries
+#  Comments:
 #  * This script is intended to live inside chroot
 #  so, do not run this script unless you know what
 #  are you doing, because is running automatic
