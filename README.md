@@ -7,6 +7,10 @@ For download/clone this files, use:
 ```
 git clone https://github.com/Bisanota/MeinArchInstaller.git
 ```
+If you want to test (experimental and not finished yet) my "GUI", but I know is a TUI, just run the command below
+```
+curl https://raw.githubusercontent.com/Bisanota/MeinArchInstaller/refs/heads/main/GUI_Test/master.sh | bash
+```
 
 Is planned to give a **Ready To Make** command in a near future.
 
