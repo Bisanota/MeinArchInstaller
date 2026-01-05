@@ -10,17 +10,21 @@
 
 
 # Functions
+conf() {
+    read -p "$1 [s/N]: " r
+    [[ "$r" =~ ^[sS]$ ]]
+}
 
 
 
 
 # Main
 
-dialog --backtitle "MeinArchInstaller by" \
+dialog --backtitle "MeinArchInstaller by Bisanota" \
         --title "HOW TO USE THIS" \
         --msgbox "Just write the direction where the file region are, based on the two windows above text region.\nDO NOT PRESS OK IF YOU HAVE NOT SELECTED YOUR REGION\n\nWith TAB key you can change between windows and buttons" 0 0
 
-dialog --backtitle "MeinArchInstaller by" \
+dialog --backtitle "MeinArchInstaller by Bisanota" \
         --title "Note" \
         --msgbox "If you don't know, just write UTC next to /usr/share/zoneinfo/\nAnd it looks like this:\n/usr/share/zoneinfo/UTC" 0 0
 
@@ -28,51 +32,23 @@ dialog --backtitle "MeinArchInstaller by" \
 region=$(dialog --title "Select your region" \
                 --stdout \
                 --fselect /usr/share/zoneinfo/  14 70)
-echo "Your region: ${region}"
-sleep 3
-
-clear
-
-
-
-
-
-
-#HERE START COPY PASTE
-#Archivo Instalador de Arch Linux Base, con todo configurado para que esté listo para usarse
-
-# =====================
-# VARIABLES
-# =====================
-disco=""
-opcion=""
-nombreMaquina=""
-nombreUser=""
-discoMBRorGPT=""
-chaoticAURconf=0
-# =====================
-# FUNCIONES
-# =====================
-confirmar() {
-    read -p "$1 [s/N]: " r
-    [[ "$r" =~ ^[sS]$ ]]
-}
-
-# =====================
-# CONFIG INICIAL
-# =====================
-clear
-echo "Mi zona horaria es UTC-5 (America/Guayaquil)."
-ln -sf /usr/share/zoneinfo/America/Guayaquil /etc/localtime
+ln -sf ${region} /etc/localtime
 hwclock --systohc
+clear
 
-# Idioma
+dialog --backtitle "MeinArchInstaller by Bisanota" \
+        --title "Language" \
+        --msgbox "For the moment, installer is available US_English-Only" 0 0
 echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
 
-# Teclado consola (opcional, puedes cambiarlo)
-echo "KEYMAP=la-latin1" > /etc/vconsole.conf
+
+
+
+
+
+
 
 # =====================
 # MENU INTERACTIVO
@@ -162,7 +138,7 @@ done
         sed -i '/GRUB_DISABLE_OS_PROBER=/d' /etc/default/grub
         echo "GRUB_DISABLE_OS_PROBER=false" >> /etc/default/grub
         echo "OS Prober habilitado en GRUB."
-        sleep 2    
+        sleep 2
 
 # =====================
 # CONTRASEÑAS
@@ -205,5 +181,3 @@ echo " Instalación de Arch Linux completada"
 echo "===================================="
 sleep 2
 exit
-
-
