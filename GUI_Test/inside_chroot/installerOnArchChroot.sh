@@ -10,7 +10,7 @@
 
 
 # Functions
-conf() {
+confirmar() {
     read -p "$1 [s/N]: " r
     [[ "$r" =~ ^[sS]$ ]]
 }
