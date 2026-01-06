@@ -26,8 +26,8 @@ if [ $haFuncionado == 0 ]; then
 
 genfstab -U /mnt >> /mnt/etc/fstab
 
-cp ./inside_chroot /mnt
-arch-chroot /mnt bash /inside_chroot/installerOnArchChroot.sh
+cp -r ./inside_chroot /mnt
+arch-chroot /mnt bash ./inside_chroot/installerOnArchChroot.sh
 rm  /mnt/installerPartII.sh
 clear
 umount -R /mnt
