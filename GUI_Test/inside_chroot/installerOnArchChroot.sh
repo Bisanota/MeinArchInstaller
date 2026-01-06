@@ -31,7 +31,7 @@ while true; do
         2 "GPT" \
         3>&1 1>&2 2>&3)
 
-            case $disco in
+            case $choosingMBRorGPT in
                 1)
                     discoMBRorGPT="grub-install --target=i386-pc /dev/sda"
                     break
