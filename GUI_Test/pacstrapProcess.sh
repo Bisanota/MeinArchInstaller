@@ -7,7 +7,7 @@ packages="base base-devel linux linux-firmware nano networkmanager"
 tries=0
 maxTries=5
 haFuncionado=0
-installArch="echo 123"#pacstrap -K /mnt $packages"
+installArch="pacstrap -K /mnt $packages"
 
 # Functions
 
