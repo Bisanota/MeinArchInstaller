@@ -13,7 +13,6 @@ dependencies="dialog git"
 clear
 echo "Warning, you've started the installing process"
 echo "If you have run this script before, then, press Ctrl-C and just run first.sh script"
-bash --noprofile --norc
 pacman -Sy archlinux-keyring --noconfirm
 pacman -S $dependencies --noconfirm
 git clone https://github.com/Bisanota/MeinArchInstaller.git
