@@ -3,7 +3,7 @@
 #  * This script is for install some packages through pacstrap
 
 # Variables
-packages="base base-devel linux linux-firmware nano networkmanager"
+packages="base base-devel linux linux-firmware nano networkmanager dialog git less bash-completion"
 tries=0
 maxTries=5
 haFuncionado=0
