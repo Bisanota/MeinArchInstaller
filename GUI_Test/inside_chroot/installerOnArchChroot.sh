@@ -6,17 +6,60 @@
 #
 #
 
-# Variables
+# CONSTANTS
+TOTAL_STEPS=7
+CURRENT_STEP=0
 
 
 # Functions
-confirmar() {
-    read -p "$1 [s/N]: " r
-    [[ "$r" =~ ^[sS]$ ]]
+addChaoticAUR() {
+    pacman-key --recv-key 3056513887B78AEB
+    pacman-key --lsign-key 3056513887B78AEB
+    sudo pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
+    sudo pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
+    echo -e "\n#Multilib\n[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
+    echo -e "\n#Chaotic AUR\n[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist" >> /etc/pacman.conf
 }
 
+chooseMBRorGPT() {
+    choosingMBRorGPT=$(dialog --backtitle "MeinArchInstaller by Bisanota" \
+        --clear \
+        --title "Select an option" \
+        --menu "Choose one:" 10 40 2 \
+        1 "GPT" \
+        2 "MBR" \
+        3>&1 1>&2 2>&3)
 
+}
 
+machineName() {
+    machine=$(dialog --backtitle "MeinArchInstaller by Bisanota" \
+                    --title "Machine Name" \
+                    --stdout \
+                    --inputbox "Enter machine name:" 0 0)
+}
+
+principalUser() {
+    dialog --backtitle "MeinArchInstaller by Bisanota" \
+        --title "REMEMBER" \
+        --msgbox "For now, you'll have just a lonely user.\nYou can add more in postinstallation." 0 0
+
+    user=$(dialog --backtitle "MeinArchInstaller by Bisanota" \
+                    --title "User name all in lowercase please" \
+                    --stdout \
+                    --inputbox "Enter your user name that you want to login in the machine, all in lowercase please:" 0 0)
+    user=${user,,}
+}
+
+update_progress() {
+    local message=$1
+    ((CURRENT_STEP++))
+    local percent=$(( CURRENT_STEP * 100 / TOTAL_STEPS ))
+    echo "XXX"
+    echo "$message"
+    echo "XXX"
+    echo "$percent"
+}
 
 # Main
 
@@ -47,137 +90,104 @@ echo "LANG=en_US.UTF-8" > /etc/locale.conf
 
 pacman -Sy dkms linux-headers htop fastfetch grub os-prober efibootmgr zram-generator broadcom-wl-dkms
 
-
-
-
-# =====================
-# MENU INTERACTIVO
-# =====================
+addChaoticAUR
 while true; do
-    clear
-    echo "Seleccione una opción:"
-    echo "1) Escoger entre MBR o GPT"
-    echo "2) Nombre de la máquina"
-    echo "3) Nombre de usuario"
-    echo "4) Agregar ChaoticAUR"
-    echo "5) Continuar"
-    read -p "> " opcion
+    choice=$(dialog --clear \
+        --backtitle "MeinArchInstaller by Bisanota" \
+        --title "Main Menu" \
+        --menu "Choose an option:" 15 50 4 \
+        1 "Choose MBR or GPT" \
+        2 "Choose Machine Name" \
+        3 "Choose Main Username" \
+        4 "Continue" \
+        3>&1 1>&2 2>&3)
 
-    case $opcion in
-    1)
-        while true; do
+    status=$?
+    clear
+
+    if [ $status -ne 0 ]; then
+        break
+    fi
+
+    case "$choice" in
+        1)
+            chooseMBRorGPT
+            ;;
+        2)
+            machineName
+            ;;
+        3)
+            principalUser
+            ;;
+        4)
+            dialog --backtitle "MeinArchInstaller by Bisanota" \
+                --title "SUMMARY" \
+                --msgbox "Disk Style: $choosingMBRorGPT\nMachineName: $machine\nUser name (lowercase): $user\nAre you sure?" 0 0
+            response=$?
             clear
-            echo "¿Su disco está en MBR o GPT?"
-            echo "1) MBR"
-            echo "2) GPT"
-            read -p "> " disco
-            case $disco in
-                1)
-                    discoMBRorGPT="grub-install --target=i386-pc /dev/sda"
-                    break
-                    ;;
-                2)
-                    discoMBRorGPT="grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ArchBTW"
-                    break
-                    ;;
-                *)
-                    echo "Respuesta no válida."
-                    sleep 1
-                    ;;
-            esac
-        done
-        ;;
-    2)
-        clear
-        read -p "¿Qué nombre desea para la máquina? " nombreMaquina
-        ;;
-    3)
-        while true; do
-            clear
-            read -p "¿Qué nombre desea para el usuario? " nombreUser
-            if id "$nombreUser" &>/dev/null; then
-                echo "El usuario ya existe, intente otro."
-                sleep 2
-            else
-                useradd -m -G wheel -s /bin/bash "$nombreUser"
+            if [ $response -eq 0 ]; then
                 break
             fi
-        done
-        ;;
-    4)
-        pacman-key --recv-key 3056513887B78AEB #--keyserver keyserver.ubuntu.com ## PARTE QUITADA POR PROVOCAR PROBLEMAS
-        pacman-key --lsign-key 3056513887B78AEB
-        sudo pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
-        sudo pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
-        echo -e "\n#Multilib\n[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
-        echo -e "\n#Chaotic AUR\n[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist" >> /etc/pacman.conf
-        ;;
-    5)
-        clear
-        echo "Resumen:"
-        echo " - Estilo de partición: $disco"
-        echo " - Nombre de máquina: $nombreMaquina"
-        echo " - Usuario: $nombreUser"
-        if confirmar "¿Desea continuar?"; then
-            break
-        fi
-        ;;
-    *)
-        echo "Opción inválida."
-        sleep 1
-        ;;
+            ;;
     esac
 done
-# =====================
-# ACTIVACIÓN DEL GRUPO SUDOERS Y DE OS PROBER
-# =====================
 
-        sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
-        echo "SUDO activado para usuarios en el grupo wheel."
-        sleep 2
-        sed -i '/GRUB_DISABLE_OS_PROBER=/d' /etc/default/grub
-        echo "GRUB_DISABLE_OS_PROBER=false" >> /etc/default/grub
-        echo "OS Prober habilitado en GRUB."
-        sleep 2
 
-# =====================
-# CONTRASEÑAS
-# =====================
-clear
-echo "Contraseña para root:"
-passwd
+password=$(dialog --backtitle "MeinArchInstaller by Bisanota" \
+                --title "Root Password" \
+                --stdout \
+                --passwordbox "Introduce Root Password:" 0 0)
+echo "root:$password" | chpasswd
 
-echo "Contraseña para $nombreUser:"
-passwd "$nombreUser"
+password=$(dialog --backtitle "MeinArchInstaller by Bisanota" \
+                --title "Secreto" \
+                --stdout \
+                --passwordbox "Introduce User Password:" 0 0)
+echo "$user:$password" | chpasswd
 
-# =====================
-# HOSTNAME Y HOSTS
-# =====================
-echo "$nombreMaquina" > /etc/hostname
-cat <<EOF > /etc/hosts
+password=0 # For security reasons, I've put a new value in passwords
+
+
+
+
+
+(
+    update_progress "Enabling sudoers"
+    sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
+    sleep 1
+
+    update_progress "Enabling GRUB"
+    sed -i '/GRUB_DISABLE_OS_PROBER=/d' /etc/default/grub
+    echo "GRUB_DISABLE_OS_PROBER=false" >> /etc/default/grub
+    sleep 1
+
+    update_progress "Enabling hosts"
+    echo "$machine" > /etc/hostname
+    bash -c "cat <<EOF > /etc/hosts
 127.0.0.1   localhost
 ::1         localhost
-127.0.1.1   $nombreMaquina.localdomain $nombreMaquina
-EOF
+127.0.1.1   $machine.localdomain $machine
+EOF"
+    sleep 1
 
-# =====================
-# GRUB & NETWORK
-# =====================
-echo "Instalando GRUB..."
-$discoMBRorGPT
-grub-mkconfig -o /boot/grub/grub.cfg
 
-systemctl enable NetworkManager
+    update_progress "Installing grub"
+    $discoMBRorGPT
+    grub-mkconfig -o /boot/grub/grub.cfg
+    sleep 1
 
-echo "[zram0]
-zram-size = ram * 2
-compression-algorithm = zstd
-swap-priority = 100
-fs-type = swap" > /etc/systemd/zram-generator.conf
+    update_progress "Enabling Networks"
+    systemctl enable NetworkManager
+    sleep 1
+
+    update_progress "Making some Tweaks"
+    sleep 1
+
+    update_progress "Finishing Installation"
+    sleep 2
+
+) | dialog --backtitle "MeinArchInstaller by Bisanota" \
+    --title "Installing System" \
+    --gauge "Starting..." 10 75 0
 
 clear
-echo "===================================="
-echo " Instalación de Arch Linux completada"
-echo "===================================="
-sleep 2
-exit
