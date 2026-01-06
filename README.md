@@ -7,12 +7,11 @@ For download/clone this files, use:
 ```
 git clone https://github.com/Bisanota/MeinArchInstaller.git
 ```
-If you want to test (experimental and not finished yet) my "GUI", but I know is a TUI, just run the command below
+Is planned to give a **Ready To Make** command in a near future.
+So, if you want to test (experimental and not finished yet) my "GUI", but I know is a TUI, just run the command below
 ```
 curl https://raw.githubusercontent.com/Bisanota/MeinArchInstaller/refs/heads/main/GUI_Test/master.sh > master.sh && bash master.sh
 ```
-
-Is planned to give a **Ready To Make** command in a near future.
 
 Actually, every who wants to use it, are free to use it hahaha
 ~~Is for users who has installed before and knows what are doing~~
@@ -35,6 +34,10 @@ Run postInstaller.sh
 Is intended for complete your installation
 WARNING: INTERNET CONNECTION NEEDED EVERY MOMENT. DO NOT DARE DISCONNECT YOUR INTERNET >:(
 - Here is also autoZRAMandSWAPFile.sh, that is just after complete the last step.
+
+### GUI_Test Folder
+There are test TUI files made with ´´dialog´´ package
+Just for now, has Installation Files, but not Post Installation in TUI mode.
 
 That is all?
 ------------
