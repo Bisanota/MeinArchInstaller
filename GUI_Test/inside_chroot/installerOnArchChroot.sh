@@ -140,7 +140,7 @@ while true; do
         4)
             dialog --backtitle "MeinArchInstaller by Bisanota" \
                 --title "SUMMARY" \
-                --msgbox "Disk Style: $choosingMBRorGPT\nMachineName: $machine\nUser name (lowercase): $user\nAre you sure?" 0 0
+                --yesno "Disk Style: $choosingMBRorGPT\nMachineName: $machine\nUser name (lowercase): $user\nAre you sure?" 0 0
             response=$?
             clear
             if [ $response -eq 0 ]; then
