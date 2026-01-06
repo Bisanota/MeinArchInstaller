@@ -45,7 +45,7 @@ echo "LANG=en_US.UTF-8" > /etc/locale.conf
 
 
 
-pacman -Sy dkms linux-headers broadcom-wl-dkms htop fastfetch grub os-prober efibootmgr zram-generator git less bash-completion
+pacman -Sy dkms linux-headers htop fastfetch grub os-prober efibootmgr zram-generator broadcom-wl-dkms
 
 
 
