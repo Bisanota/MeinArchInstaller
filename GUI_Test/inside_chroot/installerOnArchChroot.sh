@@ -88,7 +88,7 @@ echo "LANG=en_US.UTF-8" > /etc/locale.conf
 
 
 
-pacman -Sy dkms linux-headers htop fastfetch grub os-prober efibootmgr zram-generator broadcom-wl-dkms
+pacman -S --noconfirm dkms linux-headers htop fastfetch grub os-prober efibootmgr zram-generator broadcom-wl-dkms
 
 addChaoticAUR
 while true; do
