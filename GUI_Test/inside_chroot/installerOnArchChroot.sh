@@ -150,6 +150,7 @@ while true; do
     esac
 done
 
+useradd -m -G wheel -s /bin/bash "$user"
 
 password=$(dialog --backtitle "MeinArchInstaller by Bisanota" \
                 --title "Root Password" \
