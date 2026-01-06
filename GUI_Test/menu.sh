@@ -20,7 +20,7 @@ echo "Note: Maybe some day this will be more easy."
 echo "So, create, modify, mount whatever you want in /mnt ."
 echo "Press some key to continue. Remember to write exit to exit"
 read
-bash
+bash --noprofile --norc
 }
 
 InstallerOnArchChroot() {
