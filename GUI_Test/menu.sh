@@ -3,7 +3,7 @@
 #  * This script is just to choose something.
 
 # Variables
-
+wasInstalled=0
 
 # Functions
 CancelledInstaller() {
@@ -24,6 +24,7 @@ bash --noprofile --norc
 }
 
 InstallerOnArchChroot() {
+wasInstalled=1
 bash pacstrapProcess.sh
 }
 
@@ -31,7 +32,10 @@ bash pacstrapProcess.sh
 
 while true; do
 
-choice=$(dialog \
+
+
+if [ "$wasInstalled" = 0 ]; then
+    choice=$(dialog \
     --backtitle "MeinArchInstaller by Bisanota" \
     --title "Menu" \
     --clear \
@@ -41,11 +45,32 @@ choice=$(dialog \
     "2" "Start Installation" \
     "3" "Exit" \
     3>&1 1>&2 2>&3 3>&-)
+else
+	dialog --backtitle "MeinArchInstaller by Bisanota" \
+    	--title "Installation Finished!!"\
+		--msgbox "Installation was finished" 10 50
+	clear
+	choice=777
+	
+fi
 
 case $choice in
     1) Partitioning;;
     2) InstallerOnArchChroot;;
     3|255) CancelledInstaller;;
+	777) break;;
 esac
 
 done
+
+dialog --backtitle "MeinArchInstaller by Bisanota" \
+    	--title "Installation Finished!!"\
+		--yesno "Do you want to return to bash?\n YES if you want it\nNO if you want to restart" 10 40
+
+if [ $? -eq 0 ]; then
+    exit 0
+else
+    reboot
+fi
+
+
