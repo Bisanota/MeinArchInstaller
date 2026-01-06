@@ -22,14 +22,32 @@ addChaoticAUR() {
 }
 
 chooseMBRorGPT() {
+while true; do
     choosingMBRorGPT=$(dialog --backtitle "MeinArchInstaller by Bisanota" \
         --clear \
         --title "Select an option" \
         --menu "Choose one:" 10 40 2 \
-        1 "GPT" \
-        2 "MBR" \
+        1 "MBR" \
+        2 "GPT" \
         3>&1 1>&2 2>&3)
 
+            case $disco in
+                1)
+                    discoMBRorGPT="grub-install --target=i386-pc /dev/sda"
+                    break
+                    ;;
+                2)
+                    discoMBRorGPT="grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ArchBTW"
+                    break
+                    ;;
+                *)
+                    echo "No valide entry."
+                    sleep 1
+                    ;;
+            esac
+
+
+done
 }
 
 machineName() {
