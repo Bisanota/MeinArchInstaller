@@ -4,7 +4,7 @@
 
 logeadoComo=$(whoami)
 
-multimedia="alsa-utils alsa-plugins alsa-firmware alsa-oss pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber pavucontrol ffmpeg gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-libav mpv vlc vulkan-tools elisa intel-media-driver libva-intel-driver vulkan-intel libvdpau-va-gl"
+multimedia="alsa-utils alsa-plugins alsa-firmware alsa-oss pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber pavucontrol ffmpeg gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-libav mpv vlc vulkan-tools elisa intel-media-driver libva-intel-driver vulkan-intel libvdpau-va-gl mesa-utils"
 appsPersonales="kdenlive musescore audacity gimp inkscape digikam darktable blender krita libreoffice-fresh obs-studio"
 coreApps="ntfs-3g dosfstools btrfs-progs zip unzip unrar p7zip vulkan-icd-loader gvfs gvfs-mtp lib32-vulkan-icd-loader cups cups-pdf system-config-printer avahi nss-mdns sane simple-scan gamemode innoextract lib32-gamemode lib32-gnutls lib32-mesa-libgl lib32-vkd3d python-pefile vkd3d harvid new-session-manager xjadeo ufw"
 fuentesFonts="ttf-droid ttf-freefont ttf-dejavu ttf-liberation ttf-opensans noto-fonts noto-fonts-cjk noto-fonts-emoji adobe-source-han-sans-otc-fonts noto-fonts-extra inter-font ttf-fira-sans ttf-ms-fonts apple-fonts"
