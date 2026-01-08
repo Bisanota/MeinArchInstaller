@@ -7,7 +7,7 @@ echo "Is suppossed partitions are mounted, right?"
 echo "Press ctrl-c if you want not to continue, another key for continue"
 read
 
-installArch="pacstrap -K /mnt $paquetes"
+installArch="pacstrap -K /mnt $core"
 tries=0
 maxTries=5
 hasWorked=0
