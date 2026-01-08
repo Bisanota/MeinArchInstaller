@@ -28,7 +28,7 @@ fonts="ttf-dejavu noto-fonts noto-fonts-emoji noto-fonts-cjk ttf-droid ttf-freef
 waylandThings="wayland xorg-xwayland wayland-protocols wl-clipboard"
 x11Things="xorg-server xorg xclip"
 labwcPKGS="labwc fuzzel waybar swaybg wlr-randr xdg-desktop-portal xdg-desktop-portal-wlr grim slurp touchegg kanshi hyprpaper wpaperd greetd"
-aInstalar="$audio $video $vulkan $codecs $reproductor $filesystem $services $printer $chaoticAUR $scanner $optional $fonts $waylandThings"
+aInstalar="$audio $video $vulkan $codecs $reproductor $filesystem $services $printer $chaoticAUR $scanner $optional $fonts $x11Things"
 
 # DE / WM
 plasma="plasma sddm konsole dolphin ark kate okular gwenview kcalc filelight kdeconnect"
@@ -39,7 +39,7 @@ cinnamon="cinnamon lightdm lightdm-slick-greeter"
 mate="mate mate-extra lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings"
 budgie="budgie-desktop gnome gdm"
 i3="i3-wm i3status i3lock dmenu lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings"
-openbox="openbox obconf-qt tint2 lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings rofi picom blueman"
+openbox="openbox obconf-qt tint2 lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings rofi picom blueman xorg-drivers"
 awesome="awesome rofi lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings"
 bspwm="bspwm sxhkd rofi lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings"
 hyprland="hyprland waybar swaybg swaylock wofi lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings"
@@ -98,7 +98,7 @@ while true; do
     esac
 done
 
-aInstalar="$aInstalar $de"
+aInstalar="$aInstalar"
 
 clear
 echo "¿Quieres las apps personales? [S/N]"
@@ -109,6 +109,7 @@ fi
 
 # Instalación Online
 instalacionOnline="pacman -Syyu --needed --noconfirm $aInstalar"
+pacman -S --needed --noconfirm $de
 intentos=0
 intentosMax=5
 haFuncionado=0
