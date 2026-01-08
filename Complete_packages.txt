@@ -32,7 +32,7 @@ OPTIONAL ==> htop fastfetch ufw gamemode lib32-gamemode nano vim less bash-compl
 FONTS ==> ttf-dejavu noto-fonts noto-fonts-emoji noto-fonts-cjk ttf-droid ttf-freefont ttf-liberation ttf-opensans 
 WAYLAND THINGS ==> wayland xorg-xwayland wayland-protocols wl-clipboard
 XORG THINGS ==> xorg-server xorg xclip
-LABWC PKGS ==> labwc fuzzel waybar swaybg wlr-randr xdg-desktop-portal xdg-desktop-portal-wlr grim slurp touchegg kanshi hyprpaper wpaperd
+LABWC PKGS ==> labwc fuzzel waybar swaybg wlr-randr xdg-desktop-portal xdg-desktop-portal-wlr grim slurp touchegg kanshi hyprpaper wpaperd greetd
 
 
 
