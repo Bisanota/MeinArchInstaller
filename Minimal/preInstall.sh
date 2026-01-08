@@ -1,7 +1,7 @@
 #!/bin/bash
 # Debloated Installer with packages I'll use personally
 
-core=" nano networkmanager htop fastfetch grub os-prober efibootmgr zram-generator git less bash-completion"
+core="base linux linux-firmware grub efibootmgr os-prober networkmanager dkms linux-headers base-devel vim"
 
 echo "Is suppossed partitions are mounted, right?"
 echo "Press ctrl-c if you want not to continue, another key for continue"
