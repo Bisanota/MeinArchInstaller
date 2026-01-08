@@ -28,7 +28,7 @@ fonts="ttf-dejavu noto-fonts noto-fonts-emoji noto-fonts-cjk ttf-droid ttf-freef
 waylandThings="wayland xorg-xwayland wayland-protocols wl-clipboard"
 x11Things="xorg-server xorg xclip"
 labwcPKGS="labwc fuzzel waybar swaybg wlr-randr xdg-desktop-portal xdg-desktop-portal-wlr grim slurp touchegg kanshi hyprpaper wpaperd greetd"
-aInstalar="$audio $video $vulkan $codecs $reproductor $filesystem $services $printer $chaoticAUR $scanner $optional $fonts $waylandThings"
+aInstalar="$audio $video $vulkan $codecs $reproductor $filesystem $services $printer $chaoticAUR $scanner $optional $fonts $waylandThings $x11Things"
 
 # DE / WM
 plasma="plasma sddm konsole dolphin ark kate okular gwenview kcalc filelight kdeconnect"
