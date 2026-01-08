@@ -13,7 +13,7 @@ Minimal complete package
 
 --> Installation
 
-CORE ==> base linux linux-firmware grub efibootmgr os-prober networkmanager dkms linux-headers base-devel 
+CORE ==> base linux linux-firmware grub efibootmgr os-prober networkmanager dkms linux-headers base-devel vim
 IF HAS BROADCOM ==> broadcom-wl-dkms
 
 --> Post-Installation
