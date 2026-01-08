@@ -13,7 +13,8 @@ Minimal complete package
 
 --> Installation
 
-base linux linux-firmware grub efibootmgr os-prober networkmanager 
+CORE ==> base linux linux-firmware grub efibootmgr os-prober networkmanager dkms linux-headers base-devel 
+IF HAS BROADCOM ==> broadcom-wl-dkms
 
 --> Post-Installation
 AUDIO ==> pipewire wireplumber pipewire-alsa pipewire-pulse pipewire-jack alsa-utils
