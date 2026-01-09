@@ -1,0 +1,21 @@
+#!/bin/bash
+#  Comments:
+#  * This script is intended to manage everything else, 
+#  and install all dependencies before the first start.
+#  So, I almost forgot this, IS INTENDED JUST TO RUN
+#  ON LIVE ENVIRONMENT, IS JUST THE FIRST INSTALLATION.
+# Variables
+dependencies="dialog git"
+# Functions
+
+
+# Code
+clear
+echo "Warning, you've started the installing process"
+echo "If you have run this script before, then, press Ctrl-C and just run first.sh script"
+pacman -Sy archlinux-keyring --noconfirm
+pacman -S $dependencies --noconfirm
+git clone https://github.com/Bisanota/MeinArchInstaller.git
+cd MeinArchInstaller/GUI_Test
+bash first.sh
+
