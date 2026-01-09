@@ -30,7 +30,7 @@ broadcomPaquetes="dkms linux-headers broadcom-wl-dkms"
 
 instaladorBRM(){
     echo "Instalando drivers Broadcom..."
-    # pacman -S --needed --noconfirm $broadcomPaquetes
+    pacman -S --needed --noconfirm $broadcomPaquetes
     modprobe wl
     echo "blacklist b43" | tee /etc/modprobe.d/blacklist-b43.conf
     echo "blacklist ssb" | tee /etc/modprobe.d/blacklist-ssb.conf
