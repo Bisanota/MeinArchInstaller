@@ -19,7 +19,8 @@ vulkan="vulkan-intel vulkan-tools vulkan-icd-loader lib32-vulkan-icd-loader"
 codecs="ffmpeg gst-plugins-base gst-plugins-good"
 reproductor="mpv" 
 filesystem="ntfs-3g dosfstools btrfs-progs zip unzip p7zip unrar"
-services="system-config-printer avahi nss-mdns blueman network-manager-applet"
+services="system-config-printer avahi nss-mdns network-manager-applet"
+# Services no used: blueman
 printer="cups cups-pdf system-config-printer avahi nss-mdns "
 chaoticAUR="epson-inkjet-printer-escpr helium-browser-bin"
 scanner="sane simple-scan"
@@ -28,7 +29,7 @@ fonts="ttf-dejavu noto-fonts noto-fonts-emoji noto-fonts-cjk ttf-droid ttf-freef
 waylandThings="wayland xorg-xwayland wayland-protocols wl-clipboard"
 x11Things="xorg-server xorg xclip xorg-drivers"
 labwcPKGS="labwc fuzzel waybar swaybg wlr-randr xdg-desktop-portal xdg-desktop-portal-wlr grim slurp touchegg kanshi hyprpaper wpaperd greetd"
-aInstalar="$audio $video $vulkan $codecs $reproductor $filesystem $services $printer $chaoticAUR $scanner $optional $fonts $x11Things"
+aInstalar="$audio $video $vulkan $codecs $reproductor $filesystem $services $printer $chaoticAUR $scanner $optional $fonts"
 
 # DE / WM
 plasma="plasma sddm konsole dolphin ark kate okular gwenview kcalc filelight kdeconnect"
