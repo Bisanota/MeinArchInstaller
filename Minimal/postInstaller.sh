@@ -22,7 +22,7 @@ filesystem="ntfs-3g dosfstools btrfs-progs zip unzip p7zip unrar"
 services="system-config-printer avahi nss-mdns network-manager-applet"
 # Services no used: blueman
 printer="cups cups-pdf system-config-printer avahi nss-mdns "
-chaoticAUR="epson-inkjet-printer-escpr helium-browser-bin"
+chaoticAUR="epson-inkjet-printer-escpr" # helium-browser-bin or breave-bin for Browsers. No one by default
 scanner="sane simple-scan"
 optional="htop fastfetch ufw gamemode lib32-gamemode nano vim less bash-completion"
 fonts="ttf-dejavu noto-fonts noto-fonts-emoji noto-fonts-cjk ttf-droid ttf-freefont ttf-liberation ttf-opensans "
