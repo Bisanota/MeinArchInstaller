@@ -49,7 +49,7 @@ broadcomPaquetes="dkms linux-headers broadcom-wl-dkms"
 
 instaladorBRM(){
     echo "Instalando drivers Broadcom..."
-    # pacman -S --needed --noconfirm $broadcomPaquetes
+    pacman -S --needed --noconfirm $broadcomPaquetes
     modprobe wl
     echo "blacklist b43" | tee /etc/modprobe.d/blacklist-b43.conf
     echo "blacklist ssb" | tee /etc/modprobe.d/blacklist-ssb.conf
@@ -130,14 +130,7 @@ systemctl enable cups
 systemctl enable bluetooth
 systemctl enable avahi-daemon.service
 
-# SWAPFILE ----> REMOVIDO/COMENTADO PORQUE EL ARCHIVO AUTOSWAPFILE... YA HACE ESTO
-# sudo fallocate -l 4G /swapfile
-# sudo chmod 600 /swapfile
-# sudo swapon /swapfile
-# sudo mkswap /swapfile
-# echo "/swapfile none swap defaults 0 0" >> /etc/fstab
-
-echo "Instalación completada 🎉"
+echo "Instalación completada :D"
 
     else
     echo "La instalación ha fallado :("
