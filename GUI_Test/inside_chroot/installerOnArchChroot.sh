@@ -155,12 +155,14 @@ useradd -m -G wheel -s /bin/bash "$user"
 password=$(dialog --backtitle "MeinArchInstaller by Bisanota" \
                 --title "Root Password" \
                 --stdout \
+                --insecure \
                 --passwordbox "Introduce Root Password:" 0 0)
 echo "root:$password" | chpasswd
 
 password=$(dialog --backtitle "MeinArchInstaller by Bisanota" \
                 --title "Secreto" \
                 --stdout \
+                --insecure \
                 --passwordbox "Introduce User Password:" 0 0)
 echo "$user:$password" | chpasswd
 
