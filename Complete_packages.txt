@@ -36,6 +36,40 @@ LABWC PKGS ==> labwc fuzzel waybar swaybg wlr-randr xdg-desktop-portal xdg-deskt
 
 
 
-
+For new Minimal:
+# Pre-install
+intelBased="intel-ucode intel-media-driver vulkan-intel" # libva-intel-driver if you want old Driver
+amdBased="amd-ucode"
+modules="dkms linux-headers"
+dualBoot="os-prober"
+bsdLike="less inetutils bind lsof strace sysfsutils man-db man-pages"
+utilities="vim nano wget rsync git dialog" # tmux fzf
+core="base linux linux-firmware grub efibootmgr networkmanager base-devel bash-completion"
+# Post-Install
+printer="cups cups-pdf avahi nss-mdns"
+chaoticAUR="helium-browser-bin epson-inkjet-printer-escpr" # or breave-bin for Browsers. Helium by default. Epson Printer Drivers Installeds
+scanner="sane"
+optional="htop fastfetch ufw gamemode lib32-gamemode"
+fonts="ttf-dejavu noto-fonts noto-fonts-emoji noto-fonts-cjk ttf-droid ttf-freefont ttf-liberation ttf-opensans ttf-roboto ttf-jetbrains-mono"
+audio="pipewire wireplumber pipewire-alsa pipewire-pulse pipewire-jack alsa-utils"
+video="mesa mesa-utils"
+vulkan="vulkan-tools vulkan-icd-loader lib32-vulkan-icd-loader"
+codecs="ffmpeg gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-libav"
+reproductor="mpv"
+filesystem="ntfs-3g dosfstools btrfs-progs zip unzip p7zip unrar exfatprogs fuse2"
+services="avahi nss-mdns"
+extras="plymouth"
+guiServices="system-config-printer network-manager-applet simple-scan"
+# DE or WM
+dm_sddm="sddm"
+dm_gdm="gdm"
+dm_lightdm="lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings"
+dm_greetd="greetd"
+plasma="$dm_sddm plasma konsole dolphin ark kate okular gwenview kcalc filelight kdeconnect"
+xfce="$dm_lightdm xfce4 xfce4-goodies xfce4-whiskermenu-plugin blueman"
+gnome="$dm_gdm gnome gnome-tweaks gnome-shell-extensions polkit-gnome extension-manager"
+gnomeExtra="gnome-extra"
+i3="$dm_lightdm i3-wm i3status i3lock dmenu"
+openbox="$dm_lightdm openbox obconf-qt tint2 rofi picom xdg-utils xdg-user-dirs dunst"
 
 
