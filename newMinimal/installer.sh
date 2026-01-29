@@ -1,0 +1,207 @@
+#!/bin/bash
+
+# Constants
+TOTAL_STEPS=7
+CURRENT_STEP=0
+
+# Variables
+
+# Functions
+addChaoticAUR() {
+    pacman-key --recv-key 3056513887B78AEB
+    pacman-key --lsign-key 3056513887B78AEB
+    sudo pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
+    sudo pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
+    echo -e "\n#Multilib\n[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
+    echo -e "\n#Chaotic AUR\n[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist" >> /etc/pacman.conf
+}
+
+chooseMBRorGPT() {
+while true; do
+    choosingMBRorGPT=$(dialog --backtitle "MeinArchInstaller by Bisanota" \
+        --clear \
+        --title "Select an option" \
+        --menu "Choose one:" 10 40 2 \
+        1 "MBR" \
+        2 "GPT" \
+        3>&1 1>&2 2>&3)
+
+            case $choosingMBRorGPT in
+                1)
+                    discoMBRorGPT="grub-install --target=i386-pc /dev/sda"
+                    break
+                    ;;
+                2)
+                    discoMBRorGPT="grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ArchBTW"
+                    break
+                    ;;
+                *)
+                    echo "Not valid entry."
+                    sleep 1
+                    ;;
+            esac
+
+
+done
+}
+
+machineName() {
+    machine=$(dialog --backtitle "MeinArchInstaller by Bisanota" \
+                    --title "Machine Name" \
+                    --stdout \
+                    --inputbox "Enter machine name:" 0 0)
+}
+
+principalUser() {
+    dialog --backtitle "MeinArchInstaller by Bisanota" \
+        --title "REMEMBER" \
+        --msgbox "For now, you'll have just a lonely user.\nYou can add more in postinstallation." 0 0
+
+    user=$(dialog --backtitle "MeinArchInstaller by Bisanota" \
+                    --title "User name all in lowercase please" \
+                    --stdout \
+                    --inputbox "Enter your user name that you want to login in the machine, all in lowercase please:" 0 0)
+    user=${user,,}
+}
+
+update_progress() {
+    local message=$1
+    ((CURRENT_STEP++))
+    local percent=$(( CURRENT_STEP * 100 / TOTAL_STEPS ))
+    echo "XXX"
+    echo "$message"
+    echo "XXX"
+    echo "$percent"
+}
+
+# Main
+
+dialog --backtitle "MeinArchInstaller by Bisanota" \
+        --title "HOW TO USE THIS" \
+        --msgbox "Just write the direction where the file region are, based on the two windows above text region.\nDO NOT PRESS OK IF YOU HAVE NOT SELECTED YOUR REGION\n\nWith TAB key you can change between windows and buttons" 0 0
+
+dialog --backtitle "MeinArchInstaller by Bisanota" \
+        --title "Note" \
+        --msgbox "If you don't know, just write UTC next to /usr/share/zoneinfo/\nAnd it looks like this:\n/usr/share/zoneinfo/UTC" 0 0
+
+
+region=$(dialog --title "Select your region" \
+                --stdout \
+                --fselect /usr/share/zoneinfo/  14 70)
+ln -sf ${region} /etc/localtime
+hwclock --systohc
+clear
+
+dialog --backtitle "MeinArchInstaller by Bisanota" \
+        --title "Language" \
+        --msgbox "At the moment, installer is available US_English Only" 0 0
+echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
+locale-gen
+echo "LANG=en_US.UTF-8" > /etc/locale.conf
+
+addChaoticAUR
+
+while true; do
+    choice=$(dialog --clear \
+        --backtitle "MeinArchInstaller by Bisanota" \
+        --title "Main Menu" \
+        --menu "Choose an option:" 15 50 4 \
+        1 "Choose MBR or GPT" \
+        2 "Choose Machine Name" \
+        3 "Choose Main Username" \
+        4 "Continue" \
+        3>&1 1>&2 2>&3)
+
+    status=$?
+    clear
+
+    if [ $status -ne 0 ]; then
+        break
+    fi
+
+    case "$choice" in
+        1)
+            chooseMBRorGPT
+            ;;
+        2)
+            machineName
+            ;;
+        3)
+            principalUser
+            ;;
+        4)
+            dialog --backtitle "MeinArchInstaller by Bisanota" \
+                --title "SUMMARY" \
+                --yesno "Disk Style: $choosingMBRorGPT\nMachineName: $machine\nUser name (lowercase): $user\nAre you sure?" 0 0
+            response=$?
+            clear
+            if [ $response -eq 0 ]; then
+                break
+            fi
+            ;;
+    esac
+done
+
+useradd -m -G wheel -s /bin/bash "$user"
+
+password=$(dialog --backtitle "MeinArchInstaller by Bisanota" \
+                --title "Root Password" \
+                --stdout \
+                --insecure \
+                --passwordbox "Introduce Root Password:" 0 0)
+echo "root:$password" | chpasswd
+
+password=$(dialog --backtitle "MeinArchInstaller by Bisanota" \
+                --title "$user Password" \
+                --stdout \
+                --insecure \
+                --passwordbox "Introduce User Password:" 0 0)
+echo "$user:$password" | chpasswd
+password=0
+
+dialog --backtitle "MeinArchInstaller by Bisanota" \
+       --title "FINISHING!" \
+       --msgbox "This is the last step." 0 0
+
+
+(
+    update_progress "Enabling sudoers"
+    sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
+    sleep 1
+
+    update_progress "Enabling GRUB"
+    sed -i '/GRUB_DISABLE_OS_PROBER=/d' /etc/default/grub
+    echo "GRUB_DISABLE_OS_PROBER=false" >> /etc/default/grub
+    sleep 1
+
+    update_progress "Enabling hosts"
+    echo "$machine" > /etc/hostname
+    bash -c "cat <<EOF > /etc/hosts
+127.0.0.1   localhost
+::1         localhost
+127.0.1.1   $machine.localdomain $machine
+EOF"
+    sleep 1
+
+
+    update_progress "Installing grub"
+    $discoMBRorGPT
+    grub-mkconfig -o /boot/grub/grub.cfg
+    sleep 1
+
+    update_progress "Enabling Networks"
+    systemctl enable NetworkManager
+    sleep 1
+
+    update_progress "Making some Tweaks"
+    sleep 1
+
+    update_progress "Finishing Installation"
+    sleep 2
+
+) | dialog --backtitle "MeinArchInstaller by Bisanota" \
+    --title "Installing System" \
+    --gauge "Starting..." 10 75 0
+
+clear
+echo "Installation Complete :)"
