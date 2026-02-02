@@ -53,6 +53,7 @@ while true; do
 clear
     echo "Partition Drives"
     echo "This part is manual"
+    echo "Do not forget to mount your partition!!!"
     bash
     echo -n "Are you sure? [Y/N]: "
     read partDrivesSure
@@ -62,7 +63,7 @@ clear
 done
 
 pacman -Sy archlinux-keyring
-pacstrap -K $packages
+pacstrap -K /mnt $packages
 genfstab -U /mnt >> /mnt/etc/fstab
 
 cp installer.sh /mnt
