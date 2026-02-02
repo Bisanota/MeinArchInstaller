@@ -48,7 +48,7 @@ echo "]"
 }
 
 # Main
-claer
+clear
 echo "Loading"
 loadingFunction
 while true; do
